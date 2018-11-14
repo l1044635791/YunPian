@@ -2,7 +2,7 @@
 
 [![Build Status](https://dev.azure.com/1044635791/Panda.Admin/_apis/build/status/Panda.Admin)](https://dev.azure.com/1044635791/Panda.Admin/_build/latest?definitionId=3)
 
-云片网短信服务.NetCore实现版本
+基于云片网短信服务SDK的.NetCore版本实现
 
 ## 快速开始
 
