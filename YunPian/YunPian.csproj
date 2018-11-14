@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <PackageId>YunPian</PackageId>
+    <PackageId>YunPian.NetCore</PackageId>
     <PackageVersion>0.0.1</PackageVersion>
     <Authors>Lujun</Authors>
-    <Owners>Lujun</Owners>
     <PackageProjectUrl>https://github.com/l1044635791/YunPian</PackageProjectUrl>
     <PackageTags>yunpian sdk</PackageTags>
-    <Title>YunPian</Title>
-    <Description>YunPian sdk for .net core</Description>
+    <Title>YunPian.NetCore</Title>
+    <Owners>Lujun</Owners>
+    <Description>yunpian sdk for .net core</Description>
     <PackOnBuild>true</PackOnBuild>
     <ReleaseVersion>0.0.1</ReleaseVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>

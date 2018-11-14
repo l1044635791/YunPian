@@ -6,7 +6,7 @@
 
 ## 快速开始
 
-- Nuget获取[yunpian-csharp-sdk](https://www.nuget.org/packages?q=Yunpian.Sdk)
+- NuGet获取[yunpian-csharp-sdk](https://www.nuget.org/packages?q=Yunpian.Sdk)
 
 - 示例
 
@@ -68,7 +68,7 @@ public async Task<IActionResult> SendVerifyCode ([FromRoute] string mobile) {
 
 ### Windows
 
-- 需要`.NET 2.0` 及以上. 
+- 需要`.NET 2.0` 及以上.
 - 需要 `Visual Studio 2010`及以上.
 
 ### Linux/Mac
