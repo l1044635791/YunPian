@@ -8,15 +8,17 @@
 
 - Nuget获取[yunpian-csharp-sdk](https://www.nuget.org/packages?q=Yunpian.Sdk)
 
-- 示例用法
+- 示例
 
-```csharp
+```json
 appsettings.json
 
 {
     "YunPianApiKey":"你的云片ApiKey",
 }
+```
 
+```csharp
 Startup.cs
 
 public void ConfigureServices (IServiceCollection services) {  
@@ -25,7 +27,9 @@ public void ConfigureServices (IServiceCollection services) {
         options.ApiKey = Configuration["YunPianApiKey"];  
     );
 }
+```
 
+```csharp
 AccountController
 
 public readonly ISmsService _smsService;
