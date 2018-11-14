@@ -1,5 +1,6 @@
 # YunPian.NetCore
 
+[![NuGet](https://img.shields.io/nuget/v/YunPian.NetCore.svg)](https://www.nuget.org/packages/YunPian.NetCore/)
 [![Build Status](https://dev.azure.com/1044635791/YunPian/_apis/build/status/l1044635791.YunPian)](https://dev.azure.com/1044635791/YunPian/_build/latest?definitionId=5)
 
 基于云片网短信服务SDK的.NetCore版本实现
