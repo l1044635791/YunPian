@@ -60,7 +60,6 @@ public async Task<IActionResult> SendVerifyCode ([FromRoute] string mobile) {
   - YunPianOptions 客户端配置数据
   - YunPianFields 云片网接口字段
 - YunPian.Test 源码单元测试工程 `namespace=YunPian.Test`
-  - Services 云片接口单元测试
   - 开发API可参考单元测试
 
 - 分支说明: master是发布版本,dev是待发布的分支
