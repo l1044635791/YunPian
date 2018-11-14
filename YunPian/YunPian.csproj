@@ -9,7 +9,7 @@
     <Title>YunPian.NetCore</Title>
     <Owners>Lujun</Owners>
     <Description>yunpian sdk for .net core</Description>
-    <PackOnBuild>true</PackOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <ReleaseVersion>0.0.1</ReleaseVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <RootNamespace>YunPian</RootNamespace>

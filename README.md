@@ -6,7 +6,7 @@
 
 ## 快速开始
 
-- NuGet获取[yunpian-csharp-sdk](https://www.nuget.org/packages?q=Yunpian.Sdk)
+- NuGet获取[YunPian.NetCore](https://www.nuget.org/packages/YunPian.NetCore/)
 
 - 示例
 
@@ -59,10 +59,6 @@ public async Task<IActionResult> SendVerifyCode ([FromRoute] string mobile) {
   - YunPianExtensions IServiceCollection 扩展方法
   - YunPianOptions 客户端配置数据
   - YunPianFields 云片网接口字段
-- YunPian.Test 源码单元测试工程 `namespace=YunPian.Test`
-  - 开发API可参考单元测试
-
-- 分支说明: master是发布版本,dev是待发布的分支
 
 ## 环境要求
 
@@ -75,10 +71,6 @@ public async Task<IActionResult> SendVerifyCode ([FromRoute] string mobile) {
 
 - 需要 `Mono 3.12` 及以上.
 
-## 联系我们
-
-[云片支持 QQ](https://static.meiqia.com/dist/standalone.html?eid=30951&groupid=0d20ab23ab4702939552b3f81978012f&metadata={"name":"github"})
-
-## 文档链接
+## 参考文档
 
 - [API文档](https://www.yunpian.com/api2.0/guide.html)
