@@ -1,6 +1,6 @@
 ﻿namespace YunPian {
     /// <summary>
-    /// 云片网数据接口字段
+    /// 云片网接口字段
     /// </summary>
     public static class YunPianFields {
         public const int Ok = 0;
