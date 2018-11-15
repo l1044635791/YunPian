@@ -18,13 +18,13 @@ namespace YunPian.Services {
         /// <param name="tpl_id">模板ID 为空返回所有模板信息</param>
         /// <returns></returns>
         public async Task<Result<List<Template>>> GetDefaultTempletAsync (string tpl_id) {
-            if (!string.IsNullOrWhiteSpace (tpl_id))
-                Params.Add (YunPianFields.TplId, tpl_id);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.GetDefaultTemplet;
+            if (!string.IsNullOrWhiteSpace (tpl_id))
+                data.Add (YunPianFields.TplId, tpl_id);
 
             var resultHandler = new SimpleListResultHandler<Template> (Options.Version);
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.GetDefaultTemplet);
 
         }
 
@@ -34,10 +34,10 @@ namespace YunPian.Services {
         /// <param name="tpl_id">模板ID 为空返回所有模板信息</param>
         /// <returns></returns>
         public async Task<Result<List<Template>>> GetTempletAsync (string tpl_id) {
-            if (!string.IsNullOrWhiteSpace (tpl_id))
-                Params.Add (YunPianFields.TplId, tpl_id);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.GetTemplet;            
+            if (!string.IsNullOrWhiteSpace (tpl_id))
+                data.Add (YunPianFields.TplId, tpl_id);
 
             var resultHandler = new ListMapResultHandler<Template> (Options.Version, response => {
                 if (response != null) {
@@ -61,7 +61,7 @@ namespace YunPian.Services {
                 return new List<Template> ();
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.GetTemplet);
         }
 
         /// <summary>
@@ -72,13 +72,13 @@ namespace YunPian.Services {
         /// <param name="lang">模板语言:简体中文zh_cn; 英文en; 繁体中文 zh_tw; 韩文ko,日文 ja</param>
         /// <returns></returns>
         public async Task<Result<Template>> AddTempletAsync (string tpl_content, string notify_type = null, string lang = null) {
-            Params.Add (YunPianFields.TplContent, tpl_content);
-            if (!string.IsNullOrWhiteSpace (notify_type))
-                Params.Add (YunPianFields.NotifyType, notify_type);
-            if (!string.IsNullOrWhiteSpace (lang))
-                Params.Add (YunPianFields.Lang, lang);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.AddTemplet;
+            data.Add (YunPianFields.TplContent, tpl_content);
+            if (!string.IsNullOrWhiteSpace (notify_type))
+                data.Add (YunPianFields.NotifyType, notify_type);
+            if (!string.IsNullOrWhiteSpace (lang))
+                data.Add (YunPianFields.Lang, lang);
 
             var resultHandler = new MapResultHandler<Template> (Options.Version, response => {
                 switch (Options.Version) {
@@ -90,7 +90,7 @@ namespace YunPian.Services {
                         return null;
                 }
             });
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.AddTemplet);
         }
 
         /// <summary>
@@ -99,15 +99,15 @@ namespace YunPian.Services {
         /// <param name="tpl_id">模板ID</param>
         /// <returns></returns>
         public async Task<Result<Template>> DeleteTempletAsync (string tpl_id) {
-            Params.Add (YunPianFields.TplId, tpl_id);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.DeleteTemplet;
+            data.Add (YunPianFields.TplId, tpl_id);
 
             var resultHandler = new MapResultHandler<Template> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2 ? response.ToObject<Template> () : null;
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.DeleteTemplet);
         }
 
         /// <summary>
@@ -117,10 +117,10 @@ namespace YunPian.Services {
         /// <param name="tpl_content">必须以带符号【】的签名开头. 示例:【云片网】您的验证码是#code#</param>
         /// <returns></returns>
         public async Task<Result<Template>> UpdateTempletAsync (string tpl_id, string tpl_content) {
-            Params.Add (YunPianFields.TplId, tpl_id);
-            Params.Add (YunPianFields.TplContent, tpl_content);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.UpdateTemplet;
+            data.Add (YunPianFields.TplId, tpl_id);
+            data.Add (YunPianFields.TplContent, tpl_content);
 
             var resultHandler = new MapResultHandler<Template> (Options.Version, response => {
                 switch (Options.Version) {
@@ -133,7 +133,7 @@ namespace YunPian.Services {
                 }
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.UpdateTemplet);
         }
 
         /// <summary>
@@ -142,17 +142,17 @@ namespace YunPian.Services {
         /// <param name="tpl_content">模板内容，必须以带符号【】的签名开头 示例:【云片网】您的验证码是#code#</param>
         /// <param name="notify_type">审核结果短信通知的方式: 0表示需要通知(默认); 1表示仅审核不通过时通知; 2表示仅审核通过时通知; 3表示不需要通知</param>
         public async Task<Result<Template>> AddVoiceNotifyTempletAsync (string tpl_content, string notify_type = null) {
-            Params.Add (YunPianFields.TplContent, tpl_content);
-            if (!string.IsNullOrWhiteSpace (notify_type))
-                Params.Add (YunPianFields.NotifyType, notify_type);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.AddVoiceNotifyTemplet;
+            data.Add (YunPianFields.TplContent, tpl_content);
+            if (!string.IsNullOrWhiteSpace (notify_type))
+                data.Add (YunPianFields.NotifyType, notify_type);
 
             var resultHandler = new MapResultHandler<Template> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2 ? response.ToObject<Template> () : null;
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.AddVoiceNotifyTemplet);
         }
 
         /// <summary>
@@ -162,17 +162,17 @@ namespace YunPian.Services {
         /// <param name="tpl_content">模板内容，必须以带符号【】的签名开头 示例:【云片网】您的验证码是#code#</param>
         /// <returns></returns>
         public async Task<Result<Template>> UpdateVoiceNotifyTempletAsync (string tpl_id, string tpl_content) {
-            Params.Add (YunPianFields.TplId, tpl_id);
-            Params.Add (YunPianFields.TplContent, tpl_content);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.UpdateVoiceNotifyTemplet;
+            data.Add (YunPianFields.TplId, tpl_id);
+            data.Add (YunPianFields.TplContent, tpl_content);
 
             var resultHandler = new MapResultHandler<Template> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2 ? response[YunPianFields.Template] != null ?
                     response[YunPianFields.Template].ToObject<Template> () : response.ToObject<Template> () : null;
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.UpdateVoiceNotifyTemplet);
         }
     }
 }

@@ -21,18 +21,18 @@ namespace YunPian.Services {
         /// <param name="provider">生成的链接的域名，传入1是yp2.cn，2是t.cn，默认1</param>
         /// <returns></returns>
         public async Task<Result<ShortUrl>> CreateShortenAsync (string name, string long_url, int stat_duration = 30, int provider = 1) {
-            Params.Add (YunPianFields.Name, name);
-            Params.Add (YunPianFields.LongUrl, long_url);
-            Params.Add (YunPianFields.StatDuration, stat_duration.ToString ());
-            Params.Add (YunPianFields.Provider, provider.ToString ());
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.CreateShorten;
-            
+            data.Add (YunPianFields.Name, name);
+            data.Add (YunPianFields.LongUrl, long_url);
+            data.Add (YunPianFields.StatDuration, stat_duration.ToString ());
+            data.Add (YunPianFields.Provider, provider.ToString ());
+
             var resultHandler = new MapResultHandler<ShortUrl> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2 ? response[YunPianFields.ShortUrl].ToObject<ShortUrl> () : null;
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.CreateShorten);
         }
 
         /// <summary>
@@ -43,19 +43,19 @@ namespace YunPian.Services {
         /// <param name="end">结束时间，默认当前时间 2018-11-15 12:30:00</param>
         /// <returns></returns>
         public async Task<Result<Dictionary<string, long>>> GetGetShortenAsync (string sid, DateTime? start, DateTime? end) {
-            Params.Add (YunPianFields.Sid, sid);
-            if (start.HasValue)
-                Params.Add (YunPianFields.StartTime, start.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
-            if (end.HasValue)
-                Params.Add (YunPianFields.EndTime, end.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.GetShorten;
+            data.Add (YunPianFields.Sid, sid);
+            if (start.HasValue)
+                data.Add (YunPianFields.StartTime, start.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
+            if (end.HasValue)
+                data.Add (YunPianFields.EndTime, end.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
 
             var resultHandler = new MapResultHandler<Dictionary<string, long>> (Options.Version, response => {
                     return Options.Version == YunPianFields.VersionV2 ? response[YunPianFields.Stat].ToObject<Dictionary<string, long>> () : null;
                 });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.GetShorten);
         }
     }
 }

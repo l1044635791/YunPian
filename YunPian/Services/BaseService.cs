@@ -9,24 +9,15 @@ using Microsoft.Extensions.Options;
 using YunPian.Handlers;
 using YunPian.Models;
 
-namespace YunPian.Services
-{
+namespace YunPian.Services {
     public class BaseService {
         protected HttpClient _httpClient;
         private readonly YunPianOptions _options;
         public BaseService (IOptions<YunPianOptions> options) {
-
             _options = options.Value;
-
-            this.Params = new Dictionary<string, string> {
-                [YunPianFields.ApiKey] = _options.ApiKey
-            };
         }
 
-        protected string Uri { get; set; }
-        protected string Charset { get; set; }
         protected YunPianOptions Options => _options;
-        protected Dictionary<string, string> Params { get; set; }
 
         /// <summary>
         /// Post请求处理
@@ -35,13 +26,13 @@ namespace YunPian.Services
         /// <typeparam name="TR">接收的类型</typeparam>
         /// <typeparam name="T">转换类型</typeparam>
         /// <returns>转换后的结果类型</returns>
-        public async Task<Result<T>> PostAsync<TR, T> (IResultHandler<TR, T> resultHandler) {
+        public async Task<Result<T>> PostAsync<TR, T> (Dictionary<string, string> data, IResultHandler<TR, T> resultHandler, string url, string charset = null) {
             // 指定编码格式
-            var encoding = Encoding.GetEncoding (Charset??_options.Charset);
-
+            data.Add (YunPianFields.ApiKey, _options.ApiKey);
+            var encoding = Encoding.GetEncoding (charset??_options.Charset);
             // 对返回的结果进行处理
-            var response = resultHandler.Response (await (await _httpClient.PostAsync (Uri,
-                new StringContent (UrlEncode (Params, encoding), encoding, "application/x-www-form-urlencoded")
+            var response = resultHandler.Response (await (await _httpClient.PostAsync (url,
+                new StringContent (UrlEncode (data, encoding), encoding, "application/x-www-form-urlencoded")
             )).Content.ReadAsStringAsync ());
 
             // 对发送成功/失败/异常的返回结果进行处理
@@ -60,10 +51,10 @@ namespace YunPian.Services
         /// <typeparam name="TR">接收的类型</typeparam>
         /// <typeparam name="T">转换类型</typeparam>
         /// <returns>转换后的结果类型</returns>
-        public async Task<Result<T>> PostAsync<TR, T> (HttpContent content, IResultHandler<TR, T> resultHandler) {
+        public async Task<Result<T>> PostAsync<TR, T> (HttpContent content, IResultHandler<TR, T> resultHandler, string url) {
 
             // 对返回的结果进行处理
-            var response = resultHandler.Response (await (await _httpClient.PostAsync (Uri, content)).Content.ReadAsStringAsync ());
+            var response = resultHandler.Response (await (await _httpClient.PostAsync (url, content)).Content.ReadAsStringAsync ());
 
             // 对发送成功/失败/异常的返回结果进行处理
             try {
@@ -81,7 +72,7 @@ namespace YunPian.Services
         /// <returns>返回编码后的string字符串</returns>
         protected string UrlEncode (Dictionary<string, string> @params, Encoding encoding = null) {
             return string.Join ("&",
-                @params.Select (kv => string.Format ("{0}={1}", HttpUtility.UrlEncode (kv.Key, encoding??Encoding.GetEncoding (Charset??_options.Charset)),
+                @params.Select (kv => string.Format ("{0}={1}", HttpUtility.UrlEncode (kv.Key, encoding??Encoding.GetEncoding (_options.Charset)),
                     HttpUtility.UrlEncode (kv.Value, encoding))));
         }
 
@@ -91,8 +82,8 @@ namespace YunPian.Services
         /// <param name="@params">参数</param>
         /// <param name="encoding">编码格式</param>
         /// <returns>返回编码后的string字符串</returns>
-        protected string TextUrlEncode (string seperator, string text) {
-            return string.Join (seperator, text.Split (',').Select (m => $"{HttpUtility.UrlEncode (m, Encoding.GetEncoding (Charset??_options.Charset))}"));
+        protected string TextUrlEncode (string seperator, string text, string charset = null) {
+            return string.Join (seperator, text.Split (',').Select (m => $"{HttpUtility.UrlEncode (m, Encoding.GetEncoding (charset??_options.Charset))}"));
         }
 
         /// <summary>
@@ -101,8 +92,8 @@ namespace YunPian.Services
         /// <param name="@params">参数</param>
         /// <param name="encoding">编码格式</param>
         /// <returns>返回编码后的string字符串</returns>
-        protected string TextUrlEncode (string seperator, params string[] text) {
-            return string.Join (seperator, text.Select (m => $"{HttpUtility.UrlEncode (m, Encoding.GetEncoding (Charset??_options.Charset))}"));
+        protected string TextUrlEncode (string seperator, string charset = null, params string[] text) {
+            return string.Join (seperator, text.Select (m => $"{HttpUtility.UrlEncode (m, Encoding.GetEncoding (charset??_options.Charset))}"));
         }
     }
 }

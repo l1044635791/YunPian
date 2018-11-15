@@ -10,8 +10,9 @@ namespace YunPian.Services {
         /// <param name="param">需要包含_sign字段</param>
         /// <param name="layout"></param>
         /// <param name="material"></param>
+        /// <param name="charset">编码格式</param>
         /// <returns></returns>
-        Task<Result<Template>> AddVideoTemplateAsync (Dictionary<string, string> param, string layout, byte[] material);
+        Task<Result<Template>> AddVideoTemplateAsync (Dictionary<string, string> param, string layout, byte[] material, string charset = null);
 
         /// <summary>
         /// 获取视频短信模板状态

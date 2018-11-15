@@ -49,12 +49,12 @@ namespace Microsoft.Extensions.DependencyInjection {
                     TimeSpan.FromSeconds (10)
             }));
 
-            service.AddTransient<ISmsService, SmsService> ();
-            service.AddTransient<IVoiceService, VoiceService> ();
-            service.AddTransient<IVideoService, VideoService> ();
-            service.AddTransient<ITempletService, TempletService> ();
-            service.AddTransient<ISignService, SignService> ();
-            service.AddTransient<IShortenService, ShortenService> ();
+            service.AddSingleton<ISmsService, SmsService> ();
+            service.AddSingleton<IVoiceService, VoiceService> ();
+            service.AddSingleton<IVideoService, VideoService> ();
+            service.AddSingleton<ITempletService, TempletService> ();
+            service.AddSingleton<ISignService, SignService> ();
+            service.AddSingleton<IShortenService, ShortenService> ();
 
             service.Configure (setupAction);
         }

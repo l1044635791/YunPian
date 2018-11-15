@@ -27,18 +27,18 @@ namespace YunPian.Services {
         /// </param>
         /// <returns></returns>
         public async Task<Result<Sign>> AddSignAsync (string sign, bool notify = true, bool apply_vip = false, bool is_only_global = false, string industry_type = "其他") {
-            Params.Add (YunPianFields.Sign, sign);
-            Params.Add (YunPianFields.Notify, notify.ToString ());
-            Params.Add (YunPianFields.ApplyVip, apply_vip.ToString ());
-            Params.Add (YunPianFields.IsOnlyGlobal, is_only_global.ToString ());
-            Params.Add (YunPianFields.IndustryType, industry_type);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.AddSign;
+            data.Add (YunPianFields.Sign, sign);
+            data.Add (YunPianFields.Notify, notify.ToString ());
+            data.Add (YunPianFields.ApplyVip, apply_vip.ToString ());
+            data.Add (YunPianFields.IsOnlyGlobal, is_only_global.ToString ());
+            data.Add (YunPianFields.IndustryType, industry_type);
 
             var resultHandler = new MapResultHandler<Sign> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2 ? response[YunPianFields.Sign].ToObject<Sign> () : null;
             });
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.AddSign);
         }
 
         /// <summary>
@@ -58,20 +58,20 @@ namespace YunPian.Services {
         /// </param>
         /// <returns></returns>
         public async Task<Result<Sign>> UpdateSignAsync (string sign, string old_sign, bool notify = true, bool apply_vip = false, bool is_only_global = false, string industry_type = "其他") {
-            Params.Add (YunPianFields.Sign, sign);
-            Params.Add (YunPianFields.OldSign, old_sign);
-            Params.Add (YunPianFields.Notify, notify.ToString ());
-            Params.Add (YunPianFields.ApplyVip, apply_vip.ToString ());
-            Params.Add (YunPianFields.IsOnlyGlobal, is_only_global.ToString ());
-            Params.Add (YunPianFields.IndustryType, industry_type);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.UpdateSign;
+            data.Add (YunPianFields.Sign, sign);
+            data.Add (YunPianFields.OldSign, old_sign);
+            data.Add (YunPianFields.Notify, notify.ToString ());
+            data.Add (YunPianFields.ApplyVip, apply_vip.ToString ());
+            data.Add (YunPianFields.IsOnlyGlobal, is_only_global.ToString ());
+            data.Add (YunPianFields.IndustryType, industry_type);
 
             var resultHandler = new MapResultHandler<Sign> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2 ? response[YunPianFields.Sign].ToObject<Sign> () : null;
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.UpdateSign);
         }
 
         /// <summary>
@@ -82,14 +82,14 @@ namespace YunPian.Services {
         /// <param name="sign">签名内容</param>
         /// <returns></returns>
         public async Task<Result<SignList>> GetSignAsync (int? page_index, int? page_size, string sign = null) {
-            if (!string.IsNullOrWhiteSpace (sign))
-                Params.Add (YunPianFields.Sign, sign);
-            if (page_index != null)
-                Params.Add (YunPianFields.PageNum, page_index.ToString ());
-            if (page_size != null)
-                Params.Add (YunPianFields.PageSize, page_size.ToString ());
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.GetSign;
+            if (!string.IsNullOrWhiteSpace (sign))
+                data.Add (YunPianFields.Sign, sign);
+            if (page_index != null)
+                data.Add (YunPianFields.PageNum, page_index.ToString ());
+            if (page_size != null)
+                data.Add (YunPianFields.PageSize, page_size.ToString ());
 
             var resultHandler = new MapResultHandler<SignList> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2? new SignList {
@@ -98,7 +98,7 @@ namespace YunPian.Services {
                 }: null;
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.GetSign);
         }
     }
 }

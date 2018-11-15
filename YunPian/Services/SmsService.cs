@@ -24,11 +24,10 @@ namespace YunPian.Services {
         /// <param name="charset">编码格式</param>
         /// <returns></returns>
         public async Task<Result<SmsSingleSend>> SingleSendAsync (string text, string mobile, string charset = null) {
-            Params.Add (YunPianFields.Mobile, mobile);
-            Params.Add (YunPianFields.Text, text);
-            
-            Uri = Options.SingleSendSms;
-            Charset = charset;
+            var data = new Dictionary<string, string> ();
+
+            data.Add (YunPianFields.Mobile, mobile);
+            data.Add (YunPianFields.Text, text);
 
             // 设置对Result<SmsSingleSend>进行处理的方法
             var resultHandler = new MapResultHandler<SmsSingleSend> (Options.Version,
@@ -36,7 +35,7 @@ namespace YunPian.Services {
                     return Options.Version == YunPianFields.VersionV2 ? response.ToObject<SmsSingleSend> () : null;
                 });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.SingleSendSms, charset);
         }
 
         /// <summary>
@@ -47,11 +46,10 @@ namespace YunPian.Services {
         /// <param name="charset">编码格式</param>
         /// <returns></returns>
         public async Task<Result<SmsBatchSend>> BatchSendAsync (string text, string mobile, string charset = null) {
-            Params.Add (YunPianFields.Mobile, mobile);
-            Params.Add (YunPianFields.Text, text);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.BatchSendSms;
-            Charset = charset;
+            data.Add (YunPianFields.Mobile, mobile);
+            data.Add (YunPianFields.Text, text);
 
             // 设置对Result<SmsBatchSend>进行处理的方法
             var resultHandler = new MapResultHandler<SmsBatchSend> (Options.Version, response => {
@@ -62,7 +60,7 @@ namespace YunPian.Services {
                 } : null;
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.BatchSendSms, charset);
         }
 
         /// <summary>
@@ -73,11 +71,10 @@ namespace YunPian.Services {
         /// <param name="charset">编码格式</param>
         /// <returns></returns>
         public async Task<Result<SmsBatchSend>> MultiSendAsync (string text, string mobile, string charset = null) {
-            Params.Add (YunPianFields.Mobile, mobile);
-            Params.Add (YunPianFields.Text, TextUrlEncode (",", text));
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.MultiSendSms;
-            Charset = charset;
+            data.Add (YunPianFields.Mobile, mobile);
+            data.Add (YunPianFields.Text, TextUrlEncode (",", text));
 
             // 设置对Result<SmsBatchSend>进行处理的方法
             var resultHandler = new MapResultHandler<SmsBatchSend> (Options.Version, response => {
@@ -88,7 +85,7 @@ namespace YunPian.Services {
                 } : null;
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.MultiSendSms, charset);
         }
 
         /// <summary>
@@ -99,17 +96,15 @@ namespace YunPian.Services {
         /// <param name="charset">编码格式</param>
         /// <returns></returns>
         public async Task<Result<List<SmsSingleSend>>> MultiSendAsync_V1 (string mobile, string charset = null, params string[] text) {
-            Params.Add (YunPianFields.Mobile, mobile);
-            Params.Add (YunPianFields.Text, TextUrlEncode (",", text));
+            var data = new Dictionary<string, string> ();
 
-            Options.Version = YunPianFields.VersionV1;
-            Uri = Options.MultiSendSms;
-            Charset = charset;
+            data.Add (YunPianFields.Mobile, mobile);
+            data.Add (YunPianFields.Text, TextUrlEncode (",", charset, text));
 
             // 设置对Result<List<SmsSingleSend>>进行处理的方法
-            var resultHandler = new SimpleListResultHandler<SmsSingleSend> (Options.Version);
+            var resultHandler = new SimpleListResultHandler<SmsSingleSend> (YunPianFields.VersionV1);
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.MultiSendSms_V1, charset);
         }
 
         /// <summary>
@@ -119,10 +114,10 @@ namespace YunPian.Services {
         /// <param name="page_size">每页数量(默认20，最大数量100)</param>
         /// <returns></returns>
         public async Task<Result<List<SmsStatus>>> PullSmsStatusAsync (int page_index, int page_size) {
-            Params.Add (YunPianFields.PageNum, page_index.ToString ());
-            Params.Add (YunPianFields.PageSize, page_size.ToString ());
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.PullSmsStatus;
+            data.Add (YunPianFields.PageNum, page_index.ToString ());
+            data.Add (YunPianFields.PageSize, page_size.ToString ());
 
             // 设置对Result<List<SmsStatus>>进行处理的方法
             var resultHandler = new ListMapResultHandler<SmsStatus> (Options.Version, response => {
@@ -136,7 +131,7 @@ namespace YunPian.Services {
                 }
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.PullSmsStatus);
         }
 
         /// <summary>
@@ -146,10 +141,10 @@ namespace YunPian.Services {
         /// <param name="page_size">每页数量(默认20，最大数量100)</param>
         /// <returns></returns>
         public async Task<Result<List<SmsReply>>> PullSmsReplyAsync (int page_index, int page_size) {
-            Params.Add (YunPianFields.PageNum, page_index.ToString ());
-            Params.Add (YunPianFields.PageSize, page_size.ToString ());
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.PullSmsReply;
+            data.Add (YunPianFields.PageNum, page_index.ToString ());
+            data.Add (YunPianFields.PageSize, page_size.ToString ());
 
             // 设置对Result<List<SmsReply>>进行处理的方法
             var resultHandler = new ListMapResultHandler<SmsReply> (Options.Version, response => {
@@ -163,7 +158,7 @@ namespace YunPian.Services {
                 }
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.PullSmsReply);
         }
 
         /// <summary>
@@ -176,18 +171,18 @@ namespace YunPian.Services {
         /// <param name="mobile">手机号</param>
         /// <returns></returns>
         public async Task<Result<List<SmsReply>>> GetSmsReplyAsync (int page_index, int page_size, DateTime? start, DateTime? end, string mobile) {
-            Params.Add (YunPianFields.PageNum, page_index.ToString ());
-            Params.Add (YunPianFields.PageSize, page_size.ToString ());
+            var data = new Dictionary<string, string> ();
+
+            data.Add (YunPianFields.PageNum, page_index.ToString ());
+            data.Add (YunPianFields.PageSize, page_size.ToString ());
             if (start.HasValue)
-                Params.Add (YunPianFields.StartTime, start.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
+                data.Add (YunPianFields.StartTime, start.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
             if (end.HasValue)
-                Params.Add (YunPianFields.EndTime, end.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
+                data.Add (YunPianFields.EndTime, end.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
 
             // 存在手机号查看该手机号的信息，不存在手机号返回所有信息
             if (!string.IsNullOrWhiteSpace (mobile))
-                Params.Add (YunPianFields.Mobile, mobile);
-
-            Uri = Options.GetSmsReply;
+                data.Add (YunPianFields.Mobile, mobile);
 
             // 设置对Result<List<SmsReply>>进行处理的方法
             var resultHandler = new ListMapResultHandler<SmsReply> (Options.Version, response => {
@@ -201,7 +196,7 @@ namespace YunPian.Services {
                 }
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.GetSmsReply);
         }
 
         /// <summary>
@@ -210,9 +205,9 @@ namespace YunPian.Services {
         /// <param name="text">文本内容</param>
         /// <returns>返回文本屏蔽词</returns>
         public async Task<Result<List<string>>> GetBlackWordsAsync (string text) {
-            Params.Add (YunPianFields.Text, text);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.GetBlackWords;
+            data.Add (YunPianFields.Text, text);
 
             // 设置对Result<List<string>>进行处理的方法
             var resultHandler = new ListMapResultHandler<string> (Options.Version, response => {
@@ -226,7 +221,7 @@ namespace YunPian.Services {
                 }
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.GetBlackWords);
         }
 
         /// <summary>
@@ -239,18 +234,18 @@ namespace YunPian.Services {
         /// <param name="mobile">手机号</param>
         /// <returns>返回短信记录</returns>
         public async Task<Result<List<SmsRecord>>> GetRecordAsync (int page_index, int page_size, DateTime? start, DateTime? end, string mobile) {
-            Params.Add (YunPianFields.PageNum, page_index.ToString ());
-            Params.Add (YunPianFields.PageSize, page_size.ToString ());
+            var data = new Dictionary<string, string> ();
+
+            data.Add (YunPianFields.PageNum, page_index.ToString ());
+            data.Add (YunPianFields.PageSize, page_size.ToString ());
             if (start.HasValue)
-                Params.Add (YunPianFields.StartTime, start.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
+                data.Add (YunPianFields.StartTime, start.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
             if (end.HasValue)
-                Params.Add (YunPianFields.EndTime, end.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
+                data.Add (YunPianFields.EndTime, end.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
 
             // 存在手机号查看该手机号的信息，不存在手机号返回所有信息
             if (!string.IsNullOrWhiteSpace (mobile))
-                Params.Add (YunPianFields.Mobile, mobile);
-
-            Uri = Options.GetSmsRecord;
+                data.Add (YunPianFields.Mobile, mobile);
 
             // 设置对Result<List<SmsRecord>>进行处理的方法
             var resultHandler = new ListMapResultHandler<SmsRecord> (Options.Version, response => {
@@ -264,7 +259,7 @@ namespace YunPian.Services {
                 }
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.GetSmsRecord);
         }
 
         /// <summary>
@@ -275,20 +270,20 @@ namespace YunPian.Services {
         /// <param name="mobile">手机号</param>
         /// <returns>返回短信发送条数</returns>
         public async Task<Result<int>> GetSmsCountAsync (DateTime? start, DateTime? end, string mobile) {
+            var data = new Dictionary<string, string> ();
+
             if (start.HasValue)
-                Params.Add (YunPianFields.StartTime, start.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
+                data.Add (YunPianFields.StartTime, start.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
             if (end.HasValue)
-                Params.Add (YunPianFields.EndTime, end.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
+                data.Add (YunPianFields.EndTime, end.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
             // 存在手机号统计该手机号的短信数量，不存在手机号返回所有短信数量
             if (!string.IsNullOrWhiteSpace (mobile))
-                Params.Add (YunPianFields.Mobile, mobile);
-
-            Uri = Options.GetSmsCount;
+                data.Add (YunPianFields.Mobile, mobile);
 
             // 设置对Result<int>进行处理的方法
             var resultHandler = new ValueResultHandler<int> (Options.Version, int.Parse);
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.GetSmsCount);
         }
 
         /// <summary>
@@ -307,21 +302,19 @@ namespace YunPian.Services {
         /// <param name="charset">编码格式</param>
         /// <returns>返回短信发送状态信息</returns>
         public async Task<Result<SmsSingleSend>> TplSingleSendAsync_V1 (string tpl_id, string tpl_value, string mobile, string charset = null) {
-            Params.Add (YunPianFields.Mobile, mobile);
-            Params.Add (YunPianFields.TplId, tpl_id);
-            Params.Add (YunPianFields.TplValue, tpl_value);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.TplSingleSendSms_V1;
-            Options.Version = YunPianFields.VersionV1;
-            Charset = charset;
+            data.Add (YunPianFields.Mobile, mobile);
+            data.Add (YunPianFields.TplId, tpl_id);
+            data.Add (YunPianFields.TplValue, tpl_value);
 
             // 设置对Result<SmsSingleSend>进行处理的方法
-            var resultHandler = new MapResultHandler<SmsSingleSend> (Options.Version,
+            var resultHandler = new MapResultHandler<SmsSingleSend> (YunPianFields.VersionV1,
                 response => {
-                    return Options.Version == YunPianFields.VersionV1 ? response[YunPianFields.Result].ToObject<SmsSingleSend> () : null;
+                    return response[YunPianFields.Result].ToObject<SmsSingleSend> ();
                 });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.TplSingleSendSms_V1, charset);
         }
 
         /// <summary>
@@ -340,12 +333,11 @@ namespace YunPian.Services {
         /// <param name="charset">编码格式</param>
         /// <returns>返回短信发送状态信息</returns>
         public async Task<Result<SmsSingleSend>> TplSingleSendAsync (string tpl_id, string tpl_value, string mobile, string charset = null) {
-            Params.Add (YunPianFields.Mobile, mobile);
-            Params.Add (YunPianFields.TplId, tpl_id);
-            Params.Add (YunPianFields.TplValue, tpl_value);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.TplSingleSendSms;
-            Charset = charset;
+            data.Add (YunPianFields.Mobile, mobile);
+            data.Add (YunPianFields.TplId, tpl_id);
+            data.Add (YunPianFields.TplValue, tpl_value);
 
             // 设置对Result<SmsSingleSend>进行处理的方法
             var resultHandler = new MapResultHandler<SmsSingleSend> (Options.Version,
@@ -353,7 +345,7 @@ namespace YunPian.Services {
                     return Options.Version == YunPianFields.VersionV2 ? response.ToObject<SmsSingleSend> () : null;
                 });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.TplSingleSendSms, charset);
         }
 
         /// <summary>
@@ -376,19 +368,18 @@ namespace YunPian.Services {
         /// <param name="charset">编码格式</param>
         /// <returns>返回短信发送状态信息</returns>
         public async Task<Result<SmsBatchSend>> TplBatchSendAsync (string tpl_id, string tpl_value, string mobile, string charset = null) {
-            Params.Add (YunPianFields.Mobile, mobile);
-            Params.Add (YunPianFields.TplId, tpl_id);
-            Params.Add (YunPianFields.TplValue, tpl_value);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.TplBatchSendSms;
-            Charset = charset;
+            data.Add (YunPianFields.Mobile, mobile);
+            data.Add (YunPianFields.TplId, tpl_id);
+            data.Add (YunPianFields.TplValue, tpl_value);
 
             var resultHandler = new MapResultHandler<SmsBatchSend> (Options.Version,
                 response => {
                     return Options.Version == YunPianFields.VersionV2 ? response.ToObject<SmsBatchSend> () : null;
                 });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.TplBatchSendSms, charset);
         }
 
         /// <summary>
@@ -402,14 +393,14 @@ namespace YunPian.Services {
         /// </param>
         /// <returns></returns>
         public async Task<Result<object>> RegisterSucceedCallBack (string mobile, DateTime? time) {
-            Params.Add (YunPianFields.Mobile, mobile);
-            if (time.HasValue)
-                Params.Add (YunPianFields.Time, time.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.RegisterSucceedCallBack;
+            data.Add (YunPianFields.Mobile, mobile);
+            if (time.HasValue)
+                data.Add (YunPianFields.Time, time.Value.ToString ("yyyy-MM-dd HH:mm:ss"));
 
             var resultHandler = new MapResultHandler<object> (Options.Version, rsp => null);
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.RegisterSucceedCallBack);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace YunPian.Handlers {
             _version = version;
         }
         public int Code { get; set; }
+        public string Version => _version;
         public abstract TR Response (string response);
         public abstract Result<T> Success (TR response);
         public abstract Result<T> Fail (TR response);

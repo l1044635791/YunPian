@@ -50,9 +50,10 @@ namespace YunPian {
         // 发送批量短信
         public string BatchSendSms => $"/{Version}/sms/batch_send.json";
         // 发送个性化短信
+        public string MultiSendSms_V1 => $"/v1/sms/multi_send.json";
         public string MultiSendSms => $"/{Version}/sms/multi_send.json";
         // 发送指定模板短信
-        public string TplSingleSendSms_V1 => $"/{Version}/sms/tpl_send.json";
+        public string TplSingleSendSms_V1 => $"/v1/sms/tpl_send.json";
         public string TplSingleSendSms => $"/{Version}/sms/tpl_single_send.json";
         public string TplBatchSendSms => $"/{Version}/sms/tpl_batch_send.json";
 

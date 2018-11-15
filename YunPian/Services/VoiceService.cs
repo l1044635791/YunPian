@@ -20,12 +20,12 @@ namespace YunPian.Services {
         /// <param name="callback_url">本条语音验证码状态报告推送地址 http://your_receive_url_address</param>
         /// <returns></returns>
         public async Task<Result<VoiceSend>> VoiceSendAsync (string code, string mobile, string callback_url = null) {
-            Params.Add (YunPianFields.Mobile, mobile);
-            Params.Add (YunPianFields.Code, code);
-            if (!string.IsNullOrWhiteSpace (callback_url))
-                Params.Add (YunPianFields.CallbackUrl, callback_url);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.VoiceSend;
+            data.Add (YunPianFields.Mobile, mobile);
+            data.Add (YunPianFields.Code, code);
+            if (!string.IsNullOrWhiteSpace (callback_url))
+                data.Add (YunPianFields.CallbackUrl, callback_url);
 
             // 设置对Result<VoiceSend>进行处理的方法
             var resultHandler = new MapResultHandler<VoiceSend> (Options.Version, response => {
@@ -43,7 +43,7 @@ namespace YunPian.Services {
                 }
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.VoiceSend);
         }
 
         /// <summary>
@@ -58,18 +58,18 @@ namespace YunPian.Services {
         /// <param name="mobile">接收的手机号、固话（需加区号） 13140000001 01088880000</param>
         /// <returns></returns>
         public async Task<Result<VoiceSend>> TplNotifySendAsync (string tpl_id, string tpl_value, string mobile) {
-            Params.Add (YunPianFields.Mobile, mobile);
-            Params.Add (YunPianFields.TplId, tpl_id);
-            Params.Add (YunPianFields.TplValue, tpl_value);
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.TplNotifyVoiceSend;
+            data.Add (YunPianFields.Mobile, mobile);
+            data.Add (YunPianFields.TplId, tpl_id);
+            data.Add (YunPianFields.TplValue, tpl_value);
 
             // 设置对Result<VoiceSend>进行处理的方法
             var resultHandler = new MapResultHandler<VoiceSend> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2 ? response.ToObject<VoiceSend> () : null;
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.TplNotifyVoiceSend);
         }
 
         /// <summary>
@@ -80,11 +80,11 @@ namespace YunPian.Services {
         /// <param name="page_size">每页个数，最大100个，默认20个</param>
         /// <returns></returns>
         public async Task<Result<List<VoiceStatus>>> PullVoiceStatusAsync (int type, int page_index, int page_size) {
-            Params.Add (YunPianFields.Type, type.ToString ());
-            Params.Add (YunPianFields.PageNum, page_index.ToString ());
-            Params.Add (YunPianFields.PageSize, page_size.ToString ());
+            var data = new Dictionary<string, string> ();
 
-            Uri = Options.TplNotifyVoiceSend;
+            data.Add (YunPianFields.Type, type.ToString ());
+            data.Add (YunPianFields.PageNum, page_index.ToString ());
+            data.Add (YunPianFields.PageSize, page_size.ToString ());
 
             // 设置对Result<VoiceStatus>进行处理的方法
             var resultHandler = new ListMapResultHandler<VoiceStatus> (Options.Version, response => {
@@ -103,7 +103,7 @@ namespace YunPian.Services {
                 }
             });
 
-            return await PostAsync (resultHandler);
+            return await PostAsync (data, resultHandler, Options.TplNotifyVoiceSend);
         }
     }
 }
