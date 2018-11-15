@@ -5,6 +5,7 @@
     public static class YunPianFields {
         public const int Ok = 0;
         public const int ArgumentMissing = 1;
+        public const int Error = 2;
         public const int UnknownException = -50;
         public const string VersionV1 = "v1";
         public const string VersionV2 = "v2";
