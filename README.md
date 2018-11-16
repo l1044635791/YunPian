@@ -31,7 +31,7 @@ public void ConfigureServices (IServiceCollection services) {
 ```
 
 ```csharp
-AccountController
+AccountController.cs
 
 public readonly ISmsService _smsService;
 
