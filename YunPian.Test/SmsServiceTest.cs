@@ -4,7 +4,6 @@ using YunPian.Services;
 
 namespace YunPian.Test {
     public class SmsServiceTest {
-        private readonly SmsService _smsService;
         public SmsServiceTest () { }
 
         [Fact]
