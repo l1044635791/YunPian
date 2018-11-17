@@ -51,8 +51,6 @@ public async Task<IActionResult> SendVerifyCode ([FromRoute] string mobile) {
 
 ## 源码说明
 
-- 工程源码
-
 - YunPian 云片源码
   - Services 云片服务实现
   - Models 模型对象定义
