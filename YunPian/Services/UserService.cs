@@ -34,19 +34,19 @@ namespace YunPian.Services {
         /// <summary>
         /// 设置账户信息
         /// </summary>
-        /// <param name="emergency_contact">紧急联系人姓名</param>
-        /// <param name="emergency_mobile">紧急联系人手机号</param>
-        /// <param name="alarm_balance">短信余额提醒阈值</param>
+        /// <param name="emergencyContact">紧急联系人姓名</param>
+        /// <param name="emergencyMobile">紧急联系人手机号</param>
+        /// <param name="alarmBalance">短信余额提醒阈值</param>
         /// <returns></returns>
-        public async Task<Result<User>> SetUserAsync (string emergency_contact = null, string emergency_mobile = null, string alarm_balance = null) {
+        public async Task<Result<User>> SetUserAsync (string emergencyContact = null, string emergencyMobile = null, string alarmBalance = null) {
             var data = new Dictionary<string, string> ();
 
-            if (!string.IsNullOrEmpty (emergency_contact))
-                data.Add (YunPianFields.EmergencyContact, emergency_contact);
-            if (!string.IsNullOrEmpty (emergency_mobile))
-                data.Add (YunPianFields.EmergencyMobile, emergency_mobile);
-            if (!string.IsNullOrEmpty (alarm_balance))
-                data.Add (YunPianFields.AlarmBalance, alarm_balance);
+            if (!string.IsNullOrEmpty (emergencyContact))
+                data.Add (YunPianFields.EmergencyContact, emergencyContact);
+            if (!string.IsNullOrEmpty (emergencyMobile))
+                data.Add (YunPianFields.EmergencyMobile, emergencyMobile);
+            if (!string.IsNullOrEmpty (alarmBalance))
+                data.Add (YunPianFields.AlarmBalance, alarmBalance);
 
             var resultHandler = new MapResultHandler<User> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2? response.ToObject<User> () : null;

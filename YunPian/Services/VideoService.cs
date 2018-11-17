@@ -42,12 +42,12 @@ namespace YunPian.Services {
         /// <summary>
         /// 获取视频短信模板状态
         /// </summary>
-        /// <param name="tpl_id">模板ID</param>
+        /// <param name="tplId">模板ID</param>
         /// <returns></returns>
-        public async Task<Result<Template>> GetVideoTemplateAsync (string tpl_id) {
+        public async Task<Result<Template>> GetVideoTemplateAsync (string tplId) {
             var data = new Dictionary<string, string> ();
 
-            data.Add (YunPianFields.TplId, tpl_id);
+            data.Add (YunPianFields.TplId, tplId);
 
             var resultHandler = new StdResultHandler<Template> (Options.Version);
 
@@ -57,13 +57,13 @@ namespace YunPian.Services {
         /// <summary>
         /// 批量发送视频短信
         /// </summary>
-        /// <param name="tpl_id">模板ID</param>
+        /// <param name="tplId">模板ID</param>
         /// <param name="mobile">接收的手机号、固话（需加区号） 13140000001 01088880000</param>
         /// <returns></returns>
-        public async Task<Result<SmsBatchSend>> TplBatchSendAsync (string tpl_id, string mobile) {
+        public async Task<Result<SmsBatchSend>> TplBatchSendAsync (string tplId, string mobile) {
             var data = new Dictionary<string, string> ();
 
-            data.Add (YunPianFields.TplId, tpl_id);
+            data.Add (YunPianFields.TplId, tplId);
             data.Add (YunPianFields.Mobile, mobile);
 
             var resultHandler = new MapResultHandler<SmsBatchSend> (Options.Version, response => {

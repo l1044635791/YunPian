@@ -12,10 +12,10 @@ namespace YunPian.Services {
         /// <summary>
         /// 设置账户信息
         /// </summary>
-        /// <param name="emergency_contact">紧急联系人姓名</param>
-        /// <param name="emergency_mobile">紧急联系人手机号</param>
-        /// <param name="alarm_balance">短信余额提醒阈值</param>
+        /// <param name="emergencyContact">紧急联系人姓名</param>
+        /// <param name="emergencyMobile">紧急联系人手机号</param>
+        /// <param name="alarmBalance">短信余额提醒阈值</param>
         /// <returns></returns>
-        Task<Result<User>> SetUserAsync (string emergency_contact = null, string emergency_mobile = null, string alarm_balance = null);
+        Task<Result<User>> SetUserAsync (string emergencyContact = null, string emergencyMobile = null, string alarmBalance = null);
     }
 }

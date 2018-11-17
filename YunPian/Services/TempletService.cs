@@ -15,13 +15,13 @@ namespace YunPian.Services {
         /// <summary>
         /// 获取默认模板
         /// </summary>
-        /// <param name="tpl_id">模板ID 为空返回所有模板信息</param>
+        /// <param name="tplId">模板ID 为空返回所有模板信息</param>
         /// <returns></returns>
-        public async Task<Result<List<Template>>> GetDefaultTempletAsync (string tpl_id) {
+        public async Task<Result<List<Template>>> GetDefaultTempletAsync (string tplId) {
             var data = new Dictionary<string, string> ();
 
-            if (!string.IsNullOrWhiteSpace (tpl_id))
-                data.Add (YunPianFields.TplId, tpl_id);
+            if (!string.IsNullOrWhiteSpace (tplId))
+                data.Add (YunPianFields.TplId, tplId);
 
             var resultHandler = new SimpleListResultHandler<Template> (Options.Version);
             return await PostAsync (data, resultHandler, Options.GetDefaultTemplet);
@@ -31,13 +31,13 @@ namespace YunPian.Services {
         /// <summary>
         /// 获取模板
         /// </summary>
-        /// <param name="tpl_id">模板ID 为空返回所有模板信息</param>
+        /// <param name="tplId">模板ID 为空返回所有模板信息</param>
         /// <returns></returns>
-        public async Task<Result<List<Template>>> GetTempletAsync (string tpl_id) {
+        public async Task<Result<List<Template>>> GetTempletAsync (string tplId) {
             var data = new Dictionary<string, string> ();
 
-            if (!string.IsNullOrWhiteSpace (tpl_id))
-                data.Add (YunPianFields.TplId, tpl_id);
+            if (!string.IsNullOrWhiteSpace (tplId))
+                data.Add (YunPianFields.TplId, tplId);
 
             var resultHandler = new ListMapResultHandler<Template> (Options.Version, response => {
                 if (response != null) {
@@ -67,16 +67,16 @@ namespace YunPian.Services {
         /// <summary>
         /// 添加模板
         /// </summary>
-        /// <param name="tpl_content">模板内容，必须以带符号【】的签名开头 示例:【云片网】您的验证码是#code#</param>
-        /// <param name="notify_type">审核结果短信通知的方式: 0表示需要通知(默认); 1表示仅审核不通过时通知; 2表示仅审核通过时通知; 3表示不需要通知</param>
+        /// <param name="tplContent">模板内容，必须以带符号【】的签名开头 示例:【云片网】您的验证码是#code#</param>
+        /// <param name="notifyType">审核结果短信通知的方式: 0表示需要通知(默认); 1表示仅审核不通过时通知; 2表示仅审核通过时通知; 3表示不需要通知</param>
         /// <param name="lang">模板语言:简体中文zh_cn; 英文en; 繁体中文 zh_tw; 韩文ko,日文 ja</param>
         /// <returns></returns>
-        public async Task<Result<Template>> AddTempletAsync (string tpl_content, string notify_type = null, string lang = null) {
+        public async Task<Result<Template>> AddTempletAsync (string tplContent, string notifyType = null, string lang = null) {
             var data = new Dictionary<string, string> ();
 
-            data.Add (YunPianFields.TplContent, tpl_content);
-            if (!string.IsNullOrWhiteSpace (notify_type))
-                data.Add (YunPianFields.NotifyType, notify_type);
+            data.Add (YunPianFields.TplContent, tplContent);
+            if (!string.IsNullOrWhiteSpace (notifyType))
+                data.Add (YunPianFields.NotifyType, notifyType);
             if (!string.IsNullOrWhiteSpace (lang))
                 data.Add (YunPianFields.Lang, lang);
 
@@ -96,12 +96,12 @@ namespace YunPian.Services {
         /// <summary>
         /// 删除模板
         /// </summary>
-        /// <param name="tpl_id">模板ID</param>
+        /// <param name="tplId">模板ID</param>
         /// <returns></returns>
-        public async Task<Result<Template>> DeleteTempletAsync (string tpl_id) {
+        public async Task<Result<Template>> DeleteTempletAsync (string tplId) {
             var data = new Dictionary<string, string> ();
 
-            data.Add (YunPianFields.TplId, tpl_id);
+            data.Add (YunPianFields.TplId, tplId);
 
             var resultHandler = new MapResultHandler<Template> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2 ? response.ToObject<Template> () : null;
@@ -113,14 +113,14 @@ namespace YunPian.Services {
         /// <summary>
         /// 修改模板信息
         /// </summary>
-        /// <param name="tpl_id">模板ID</param>
-        /// <param name="tpl_content">必须以带符号【】的签名开头. 示例:【云片网】您的验证码是#code#</param>
+        /// <param name="tplId">模板ID</param>
+        /// <param name="tplContent">必须以带符号【】的签名开头. 示例:【云片网】您的验证码是#code#</param>
         /// <returns></returns>
-        public async Task<Result<Template>> UpdateTempletAsync (string tpl_id, string tpl_content) {
+        public async Task<Result<Template>> UpdateTempletAsync (string tplId, string tplContent) {
             var data = new Dictionary<string, string> ();
 
-            data.Add (YunPianFields.TplId, tpl_id);
-            data.Add (YunPianFields.TplContent, tpl_content);
+            data.Add (YunPianFields.TplId, tplId);
+            data.Add (YunPianFields.TplContent, tplContent);
 
             var resultHandler = new MapResultHandler<Template> (Options.Version, response => {
                 switch (Options.Version) {
@@ -139,14 +139,14 @@ namespace YunPian.Services {
         /// <summary>
         /// 添加语音通知模板
         /// </summary>
-        /// <param name="tpl_content">模板内容，必须以带符号【】的签名开头 示例:【云片网】您的验证码是#code#</param>
-        /// <param name="notify_type">审核结果短信通知的方式: 0表示需要通知(默认); 1表示仅审核不通过时通知; 2表示仅审核通过时通知; 3表示不需要通知</param>
-        public async Task<Result<Template>> AddVoiceNotifyTempletAsync (string tpl_content, string notify_type = null) {
+        /// <param name="tplContent">模板内容，必须以带符号【】的签名开头 示例:【云片网】您的验证码是#code#</param>
+        /// <param name="notifyType">审核结果短信通知的方式: 0表示需要通知(默认); 1表示仅审核不通过时通知; 2表示仅审核通过时通知; 3表示不需要通知</param>
+        public async Task<Result<Template>> AddVoiceNotifyTempletAsync (string tplContent, string notifyType = null) {
             var data = new Dictionary<string, string> ();
 
-            data.Add (YunPianFields.TplContent, tpl_content);
-            if (!string.IsNullOrWhiteSpace (notify_type))
-                data.Add (YunPianFields.NotifyType, notify_type);
+            data.Add (YunPianFields.TplContent, tplContent);
+            if (!string.IsNullOrWhiteSpace (notifyType))
+                data.Add (YunPianFields.NotifyType, notifyType);
 
             var resultHandler = new MapResultHandler<Template> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2 ? response.ToObject<Template> () : null;
@@ -158,14 +158,14 @@ namespace YunPian.Services {
         /// <summary>
         /// 更新语音短信模板
         /// </summary>
-        /// <param name="tpl_id">模板ID</param>
-        /// <param name="tpl_content">模板内容，必须以带符号【】的签名开头 示例:【云片网】您的验证码是#code#</param>
+        /// <param name="tplId">模板ID</param>
+        /// <param name="tplContent">模板内容，必须以带符号【】的签名开头 示例:【云片网】您的验证码是#code#</param>
         /// <returns></returns>
-        public async Task<Result<Template>> UpdateVoiceNotifyTempletAsync (string tpl_id, string tpl_content) {
+        public async Task<Result<Template>> UpdateVoiceNotifyTempletAsync (string tplId, string tplContent) {
             var data = new Dictionary<string, string> ();
 
-            data.Add (YunPianFields.TplId, tpl_id);
-            data.Add (YunPianFields.TplContent, tpl_content);
+            data.Add (YunPianFields.TplId, tplId);
+            data.Add (YunPianFields.TplContent, tplContent);
 
             var resultHandler = new MapResultHandler<Template> (Options.Version, response => {
                 return Options.Version == YunPianFields.VersionV2 ? response[YunPianFields.Template] != null ?

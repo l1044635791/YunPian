@@ -16,16 +16,16 @@ namespace YunPian.Services {
         /// 生成短链接 V2
         /// </summary>
         /// <param name="name">名称，默认为“MM-dd HH:mm生成的短链接”</param>
-        /// <param name="long_url">待转换的长网址，必须http://或https://开头 示例:https://www.yunpian.com</param>
-        /// <param name="stat_duration">点击量统计持续时间（天），过期后不再统计，区间[0,30]，0表示不统计，默认30</param>
+        /// <param name="longUrl">待转换的长网址，必须http://或https://开头 示例:https://www.yunpian.com</param>
+        /// <param name="statDuration">点击量统计持续时间（天），过期后不再统计，区间[0,30]，0表示不统计，默认30</param>
         /// <param name="provider">生成的链接的域名，传入1是yp2.cn，2是t.cn，默认1</param>
         /// <returns></returns>
-        public async Task<Result<ShortUrl>> CreateShortenAsync (string name, string long_url, int stat_duration = 30, int provider = 1) {
+        public async Task<Result<ShortUrl>> CreateShortenAsync (string name, string longUrl, int statDuration = 30, int provider = 1) {
             var data = new Dictionary<string, string> ();
 
             data.Add (YunPianFields.Name, name);
-            data.Add (YunPianFields.LongUrl, long_url);
-            data.Add (YunPianFields.StatDuration, stat_duration.ToString ());
+            data.Add (YunPianFields.LongUrl, longUrl);
+            data.Add (YunPianFields.StatDuration, statDuration.ToString ());
             data.Add (YunPianFields.Provider, provider.ToString ());
 
             var resultHandler = new MapResultHandler<ShortUrl> (Options.Version, response => {

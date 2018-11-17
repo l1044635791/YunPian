@@ -43,29 +43,29 @@ namespace YunPian.Services {
         /// <summary>
         /// 获取短信发送状态
         /// </summary>
-        /// <param name="page_index">页码</param>
-        /// <param name="page_size">每页数量(默认20，最大数量100)</param>
+        /// <param name="pageIndex">页码</param>
+        /// <param name="pageSize">每页数量(默认20，最大数量100)</param>
         /// <returns></returns>
-        Task<Result<List<SmsStatus>>> PullSmsStatusAsync (int page_index, int page_size);
+        Task<Result<List<SmsStatus>>> PullSmsStatusAsync (int pageIndex, int pageSize);
 
         /// <summary>
         /// 获取回复短信信息
         /// </summary>
-        /// <param name="page_index">页码</param>
-        /// <param name="page_size">每页数量(默认20，最大数量100)</param>
+        /// <param name="pageIndex">页码</param>
+        /// <param name="pageSize">每页数量(默认20，最大数量100)</param>
         /// <returns></returns>
-        Task<Result<List<SmsReply>>> PullSmsReplyAsync (int page_index, int page_size);
+        Task<Result<List<SmsReply>>> PullSmsReplyAsync (int pageIndex, int pageSize);
 
         /// <summary>
         /// 查看回复的短信
         /// </summary>
-        /// <param name="page_index">页码</param>
-        /// <param name="page_size">每页数量(默认20，最大数量100)</param>
+        /// <param name="pageIndex">页码</param>
+        /// <param name="pageSize">每页数量(默认20，最大数量100)</param>
         /// <param name="start">开始时间</param>
         /// <param name="end">结束时间</param>
         /// <param name="mobile">手机号</param>
         /// <returns></returns>
-        Task<Result<List<SmsReply>>> GetSmsReplyAsync (int page_index, int page_size, DateTime? start, DateTime? end, string mobile);
+        Task<Result<List<SmsReply>>> GetSmsReplyAsync (int pageIndex, int pageSize, DateTime? start, DateTime? end, string mobile);
 
         /// <summary>
         /// 查看文本屏蔽词
@@ -77,13 +77,13 @@ namespace YunPian.Services {
         /// <summary>
         /// 查看短信记录
         /// </summary>
-        /// <param name="page_index">页码</param>
-        /// <param name="page_size">每页数量(默认20，最大数量100)</param>
+        /// <param name="pageIndex">页码</param>
+        /// <param name="pageSize">每页数量(默认20，最大数量100)</param>
         /// <param name="start">开始时间</param>
         /// <param name="end">结束时间</param>
         /// <param name="mobile">手机号</param>
         /// <returns>返回短信记录</returns>
-        Task<Result<List<SmsRecord>>> GetRecordAsync (int page_index, int page_size, DateTime? start, DateTime? end, string mobile);
+        Task<Result<List<SmsRecord>>> GetRecordAsync (int pageIndex, int pageSize, DateTime? start, DateTime? end, string mobile);
 
         /// <summary>
         /// 统计短信发送条数
@@ -97,48 +97,48 @@ namespace YunPian.Services {
         /// <summary>
         /// 指定模板发送 V1
         /// </summary>
-        /// <param name="tpl_id">模板ID</param>
-        /// <param name="tpl_value">模板内容 String
+        /// <param name="tplId">模板ID</param>
+        /// <param name="tplValue">模板内容 String
         /// 注：变量名和变量值都不能为空  
         /// 模板:【#company#】您的验证码是#code#。   
         /// 最终发送结果： 【云片网】您的验证码是1234。  
-        /// tpl_value=urlencode("#code#") + "=" + urlencode("1234") + "&amp;" +urlencode("#company#") + "=" + urlencode("云片网");   
+        /// tplValue=urlencode("#code#") + "=" + urlencode("1234") + "&amp;" +urlencode("#company#") + "=" + urlencode("云片网");   
         /// 直接发送报文请求则使用下面的形式:  
-        /// tpl_value=urlencode(urlencode("#code#") + "=" + urlencode("1234") +"&amp;" + urlencode("#company#") + "=" + urlencode("云片网"));  
+        /// tplValue=urlencode(urlencode("#code#") + "=" + urlencode("1234") +"&amp;" + urlencode("#company#") + "=" + urlencode("云片网"));  
         /// </param>
         /// <param name="mobile">发送手机号</param>
         /// <param name="charset">编码格式</param>
         /// <returns>返回短信发送状态信息</returns>
-        Task<Result<SmsSingleSend>> TplSingleSendAsync_V1 (string tpl_id, string tpl_value, string mobile, string charset = null);
+        Task<Result<SmsSingleSend>> TplSingleSendAsync_V1 (string tplId, string tplValue, string mobile, string charset = null);
 
         /// <summary>
         /// 指定模板发送 V2
         /// </summary>
-        /// <param name="tpl_id">模板ID</param>
-        /// <param name="tpl_value">模板内容 String
+        /// <param name="tplId">模板ID</param>
+        /// <param name="tplValue">模板内容 String
         /// 注：变量名和变量值都不能为空  
         /// 模板:【#company#】您的验证码是#code#。   
         /// 最终发送结果： 【云片网】您的验证码是1234。  
-        /// tpl_value=urlencode("#code#") + "=" + urlencode("1234") + "&amp;" +urlencode("#company#") + "=" + urlencode("云片网");  
+        /// tplValue=urlencode("#code#") + "=" + urlencode("1234") + "&amp;" +urlencode("#company#") + "=" + urlencode("云片网");  
         /// 直接发送报文请求则使用下面的形式  
-        /// tpl_value=urlencode(urlencode("#code#") + "=" + urlencode("1234") +"&amp;" + urlencode("#company#") + "=" + urlencode("云片网"));  
+        /// tplValue=urlencode(urlencode("#code#") + "=" + urlencode("1234") +"&amp;" + urlencode("#company#") + "=" + urlencode("云片网"));  
         /// </param>
         /// <param name="mobile">发送手机号</param>
         /// <param name="charset">编码格式</param>
         /// <returns>返回短信发送状态信息</returns>
-        Task<Result<SmsSingleSend>> TplSingleSendAsync (string tpl_id, string tpl_value, string mobile, string charset = null);
+        Task<Result<SmsSingleSend>> TplSingleSendAsync (string tplId, string tplValue, string mobile, string charset = null);
 
         /// <summary>
         /// 指定模板发送 V2
         /// </summary>
-        /// <param name="tpl_id">模板ID</param>
-        /// <param name="tpl_value">模板内容 String
+        /// <param name="tplId">模板ID</param>
+        /// <param name="tplValue">模板内容 String
         /// 注：变量名和变量值都不能为空  
         /// 模板:【#company#】您的验证码是#code#。  
         /// 最终发送结果： 【云片网】您的验证码是1234。  
-        /// tpl_value=urlencode("#code#") + "=" + urlencode("1234") + "&amp;" +urlencode("#company#") + "=" + urlencode("云片网");  
+        /// tplValue=urlencode("#code#") + "=" + urlencode("1234") + "&amp;" +urlencode("#company#") + "=" + urlencode("云片网");  
         /// 直接发送报文请求则使用下面的形式  
-        /// tpl_value=urlencode(urlencode("#code#") + "=" + urlencode("1234") +"&amp;" + urlencode("#company#") + "=" + urlencode("云片网"));  
+        /// tplValue=urlencode(urlencode("#code#") + "=" + urlencode("1234") +"&amp;" + urlencode("#company#") + "=" + urlencode("云片网"));  
         /// </param>
         /// <param name="mobile">发送手机号
         /// 注:针对国际短信, mobile 参数会自动格式化到E.164格式
@@ -147,7 +147,7 @@ namespace YunPian.Services {
         /// </param>
         /// <param name="charset">编码格式</param>
         /// <returns>返回短信发送状态信息</returns>
-        Task<Result<SmsBatchSend>> TplBatchSendAsync (string tpl_id, string tpl_value, string mobile, string charset = null);
+        Task<Result<SmsBatchSend>> TplBatchSendAsync (string tplId, string tplValue, string mobile, string charset = null);
 
         /// <summary>
         /// 注册成功回调 V2

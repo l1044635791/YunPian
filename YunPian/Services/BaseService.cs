@@ -13,6 +13,7 @@ namespace YunPian.Services {
     public class BaseService {
         protected HttpClient _httpClient;
         private readonly YunPianOptions _options;
+        
         public BaseService (IOptions<YunPianOptions> options) {
             _options = options.Value;
         }
