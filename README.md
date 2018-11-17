@@ -53,13 +53,13 @@ public async Task<IActionResult> SendVerifyCode ([FromRoute] string mobile) {
 
 - 工程源码
 
-- YunPian 云片源码工程 `namespace=YunPian`
-  - Services 云片服务接口源码
+- YunPian 云片源码
+  - Services 云片服务实现
   - Models 模型对象定义
   - Handlers 响应结果处理方法
-  - YunPianExtensions IServiceCollection 扩展方法
-  - YunPianOptions 客户端配置数据
-  - YunPianFields 云片网接口字段
+  - YunPianExtensions IServiceCollection扩展方法
+  - YunPianOptions 客户端配置
+  - YunPianFields 云片网字段映射
 
 ## 环境要求
 
