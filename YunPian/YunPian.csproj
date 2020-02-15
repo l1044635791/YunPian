@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>YunPian.NetCore</PackageId>
-    <PackageVersion>3.1.1</PackageVersion>
+    <PackageVersion>3.1.2</PackageVersion>
     <Authors>Lujun</Authors>
     <PackageProjectUrl>https://github.com/l1044635791/YunPian</PackageProjectUrl>
     <PackageTags>yunpian sdk</PackageTags>
@@ -10,7 +10,7 @@
     <Owners>Lujun</Owners>
     <Description>yunpian sdk for .net core</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <ReleaseVersion>3.1.1</ReleaseVersion>
+    <ReleaseVersion>3.1.2</ReleaseVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <RootNamespace>YunPian</RootNamespace>
   </PropertyGroup>
