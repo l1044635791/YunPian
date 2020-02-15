@@ -61,7 +61,7 @@ public async Task<IActionResult> SendVerifyCode ([FromRoute] string mobile) {
 
 ## 环境要求
 
-- 需要`.NET Core 2.0` 及以上.
+- 需要`.NET Core 3.0` 及以上.
 
 ## 参考文档
 
